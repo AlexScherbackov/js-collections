@@ -4,8 +4,7 @@ class Enumerable {
   }
 
   select(fn) {
-    this.collection = this.collection.map(fn);
-    return this;
+    return new Enumerable(this.collection.map(fn));
   }
 
   orderBy(fn, order = 'asc') {
@@ -16,14 +15,17 @@ class Enumerable {
       ],
     );
 
-    this.collection.sort((a, b) => {
-      if (fn(a) > fn(b)) {
+    const newCollection = this.collection.slice().sort((a, b) => {
+      const a1 = fn(a);
+      const b1 = fn(b);
+
+      if (a1 > b1) {
         return orders.has(order)
           ? orders.get(order).get('>')
           : orders.get('asc').get('>');
       }
 
-      if (fn(a) < fn(b)) {
+      if (a1 < b1) {
         return orders.has(order)
           ? orders.get(order).get('<')
           : orders.get('asc').get('<');
@@ -32,16 +34,16 @@ class Enumerable {
       return 0;
     });
 
-    return this;
+    return new Enumerable(newCollection);
   }
 
   where(fn) {
-    this.collection = this.collection.filter(fn);
-    return this;
+    const filtered = this.collection.filter(fn);
+    return new Enumerable(filtered);
   }
 
   toArray() {
-    return this.collection.slice();
+    return this.collection;
   }
 }
 
