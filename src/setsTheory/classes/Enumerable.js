@@ -1,49 +1,62 @@
 class Enumerable {
-  constructor(collection) {
+  constructor(collection, operations) {
     this.collection = collection;
+    this.operations = operations || [];
   }
 
   select(fn) {
-    return new Enumerable(this.collection.map(fn));
+    const newOps = this.operations.slice();
+    newOps.push(coll => coll.map(fn));
+    return new Enumerable(this.collection.slice(), newOps);
   }
 
   orderBy(fn, order = 'asc') {
     const orders = new Map(
       [
         ['asc', new Map([['>', 1], ['<', -1]])],
-        ['desc', new Map([['>', -1], ['<', -1]])],
+        ['desc', new Map([['>', -1], ['<', 1]])],
       ],
     );
 
-    const newCollection = this.collection.slice().sort((a, b) => {
-      const a1 = fn(a);
-      const b1 = fn(b);
-
-      if (a1 > b1) {
-        return orders.has(order)
+    const newOps = this.operations.slice();
+    const sortByOrder = (coll) => {
+      const newCollection = coll.slice().sort((a, b) => {
+        const a1 = fn(a);
+        const b1 = fn(b);
+        console.log(a1, b1)
+        if (a1 > b1) {
+          console.log(orders.has(order), orders.get(order).get('>'))
+          return orders.has(order)
           ? orders.get(order).get('>')
           : orders.get('asc').get('>');
-      }
+        }
 
-      if (a1 < b1) {
-        return orders.has(order)
+        if (a1 < b1) {
+          console.log(orders.has(order), orders.get(order).get('<'))
+          return orders.has(order)
           ? orders.get(order).get('<')
           : orders.get('asc').get('<');
-      }
+        }
 
-      return 0;
-    });
+        return 0;
+      });
 
-    return new Enumerable(newCollection);
+      return newCollection;
+    };
+
+    newOps.push(sortByOrder);
+
+    return new Enumerable(this.collection.slice(), newOps);
   }
 
   where(fn) {
-    const filtered = this.collection.filter(fn);
-    return new Enumerable(filtered);
+    const newOps = this.operations.slice();
+    newOps.push(coll => coll.filter(fn));
+    return new Enumerable(this.collection.slice(), newOps);
   }
 
   toArray() {
-    return this.collection;
+    return this.operations.reduce((acc, fn) => fn(acc), this.collection.slice());      
   }
 }
 
