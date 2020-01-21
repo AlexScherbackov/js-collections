@@ -4,10 +4,12 @@ class Enumerable {
     this.operations = operations || [];
   }
 
+  build(fn) {
+    return new Enumerable(this.collection.slice(), this.operations.concat(fn));
+  }
+
   select(fn) {
-    const newOps = this.operations.slice();
-    newOps.push(coll => coll.map(fn));
-    return new Enumerable(this.collection.slice(), newOps);
+    return this.build(coll => coll.map(fn));
   }
 
   orderBy(fn, order = 'asc') {
@@ -18,21 +20,18 @@ class Enumerable {
       ],
     );
 
-    const newOps = this.operations.slice();
     const sortByOrder = (coll) => {
       const newCollection = coll.slice().sort((a, b) => {
         const a1 = fn(a);
         const b1 = fn(b);
-        console.log(a1, b1)
+
         if (a1 > b1) {
-          console.log(orders.has(order), orders.get(order).get('>'))
           return orders.has(order)
           ? orders.get(order).get('>')
           : orders.get('asc').get('>');
         }
 
         if (a1 < b1) {
-          console.log(orders.has(order), orders.get(order).get('<'))
           return orders.has(order)
           ? orders.get(order).get('<')
           : orders.get('asc').get('<');
@@ -44,19 +43,22 @@ class Enumerable {
       return newCollection;
     };
 
-    newOps.push(sortByOrder);
-
-    return new Enumerable(this.collection.slice(), newOps);
+    return this.build(sortByOrder);
   }
 
   where(fn) {
-    const newOps = this.operations.slice();
-    newOps.push(coll => coll.filter(fn));
-    return new Enumerable(this.collection.slice(), newOps);
+    return this.build(coll => coll.filter(fn));
   }
 
   toArray() {
-    return this.operations.reduce((acc, fn) => fn(acc), this.collection.slice());      
+    if (!this.memo) {
+      this.memo = this.operations.reduce((acc, fn) => fn(acc), this.collection.slice());
+    }
+    return this.memo.slice();
+  }
+
+  get length() {
+    return this.toArray().length;
   }
 }
 

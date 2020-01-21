@@ -11,6 +11,6 @@ const cars = [
 const coll = new Enumerable(cars);
 console.log(coll);
 const coll1 = coll.orderBy(car => car.year);
-console.log(coll1.toArray())
+console.log(coll1.toArray(), coll.memo)
 const coll2 = coll.orderBy(car => car.year, 'desc');
-console.log(coll2.toArray())
+console.log(coll2.toArray(), coll2.memo, coll2.length)
