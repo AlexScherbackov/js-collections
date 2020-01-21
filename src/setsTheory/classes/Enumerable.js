@@ -68,7 +68,7 @@ class Enumerable {
     if (!this.memo) {
       this.memo = this.operations.reduce((acc, fn) => fn(acc), this.collection.slice());
     }
-    return this.memo;
+    return this.memo.slice();
   }
 
   get length() {
