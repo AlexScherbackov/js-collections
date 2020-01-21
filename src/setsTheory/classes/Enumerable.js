@@ -9,7 +9,7 @@ class Enumerable {
   }
 
   select(fn) {
-    return this.build(coll => coll.map(fn));
+    return this.build((coll) => coll.map(fn));
   }
 
   orderBy(fn, order = 'asc') {
@@ -27,14 +27,14 @@ class Enumerable {
 
         if (a1 > b1) {
           return orders.has(order)
-          ? orders.get(order).get('>')
-          : orders.get('asc').get('>');
+            ? orders.get(order).get('>')
+            : orders.get('asc').get('>');
         }
 
         if (a1 < b1) {
           return orders.has(order)
-          ? orders.get(order).get('<')
-          : orders.get('asc').get('<');
+            ? orders.get(order).get('<')
+            : orders.get('asc').get('<');
         }
 
         return 0;
@@ -46,15 +46,29 @@ class Enumerable {
     return this.build(sortByOrder);
   }
 
-  where(fn) {
-    return this.build(coll => coll.filter(fn));
+  where(...compareParameters) {
+    const newOps = compareParameters.map(
+      (item) => {
+        if (typeof item === 'function') {
+          return (coll) => coll.filter(item);
+        }
+
+        const fn = (coll) => coll.filter(
+          (element) => Object.keys(item).every(
+            (key) => element[key] === item[key],
+          ),
+        );
+        return fn;
+      },
+    );
+    return this.build(newOps);
   }
 
   toArray() {
     if (!this.memo) {
       this.memo = this.operations.reduce((acc, fn) => fn(acc), this.collection.slice());
     }
-    return this.memo.slice();
+    return this.memo;
   }
 
   get length() {

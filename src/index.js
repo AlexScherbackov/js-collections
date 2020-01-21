@@ -10,7 +10,5 @@ const cars = [
 
 const coll = new Enumerable(cars);
 console.log(coll);
-const coll1 = coll.orderBy(car => car.year);
-console.log(coll1.toArray(), coll.memo)
-const coll2 = coll.orderBy(car => car.year, 'desc');
-console.log(coll2.toArray(), coll2.memo, coll2.length)
+const coll1 = coll.where({ brand: 'kia' }, car => car.year < 2013);
+console.log('coll1', coll1.toArray());
