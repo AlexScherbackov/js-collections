@@ -21,5 +21,14 @@ const applyOpToCollection = (coll, operationName, index, value, ops = arrayOps) 
   ops.has(operationName) ? ops.get(operationName)(coll, index, value) : coll
 );
 
+const swapItemsNearIndex = (arr, index) => {
+  const transformed = arr.slice();
+  if (index === 0 || index >= transformed.length - 1) {
+    return arr;
+  }
+  transformed.splice(index - 1, 3, arr[index + 1], arr[index], arr[index - 1]);
+  return transformed;
+};
 
-export { uniq, objectify, similarPropsCount, applyOpToArray };
+
+export { uniq, objectify, similarPropsCount, applyOpToArray, swapItemsNearIndex };
