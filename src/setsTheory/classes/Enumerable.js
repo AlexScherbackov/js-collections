@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 class Enumerable {
   constructor(collection, operations) {
     this.collection = collection;
@@ -62,6 +64,20 @@ class Enumerable {
       },
     );
     return this.build(newOps);
+  }
+
+  fieldSummaryCount(field) {
+    return this.collection
+      .filter((item) => _.has(item, field))
+      .reduce(
+        (acc, item) => (
+          {
+            ...acc,
+            [_.get(item, field)]: _.get(acc, item[field], 0) + 1,
+          }
+        ),
+        {},
+      );
   }
 
   toArray() {

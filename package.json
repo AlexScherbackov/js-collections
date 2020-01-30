@@ -4,13 +4,16 @@
   "description": "Study project for arrays, objects etc...",
   "main": "index.js",
   "scripts": {
-     "babel-node": "babel-node",
+    "babel-node": "babel-node",
     "build": "cross-env NODE_ENV=production babel src --out-dir dist --source-maps inline",
     "prepublishOnly": "npm run build",
     "test": "jest"
   },
   "author": "AlexShcherbackov",
   "license": "ISC",
+  "dependencies": {
+    "lodash": "^4.17.15"
+  },
   "devDependencies": {
     "@babel/cli": "^7.8.3",
     "@babel/core": "^7.8.3",
