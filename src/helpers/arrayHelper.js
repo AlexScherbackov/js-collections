@@ -1,12 +1,17 @@
-import { arrayOps } from '../constants/arrayOperations.js';
+import arrayOps from '../constants/arrayOperations';
 
+/* function uniq */
+// takes an array and returns an array of unique elements of the original
+// function don't mutate original array
 const uniq = (arr) => arr.filter((item, index) => arr.indexOf(item) === index);
 
-const objectify = (coll, select) => coll.reduce((acc, item) => ({ ...acc, [select(item)]: item }), {});
+const objectify = (coll, select) => (
+  coll.reduce((acc, item) => ({ ...acc, [select(item)]: item }), {})
+);
 
-const similarPropsCount = (list, prop) => {
+const similarPropsCount = (list) => {
   const reducer = (acc, { prop }) => {
-    if (acc.hasOwnProperty(prop)) {
+    if (Object.prototype.hasOwnProperty.call(acc, prop)) {
       acc[prop] += 1;
     } else {
       acc[prop] = 1;
@@ -31,4 +36,6 @@ const swapItemsNearIndex = (arr, index) => {
 };
 
 
-export { uniq, objectify, similarPropsCount, applyOpToArray, swapItemsNearIndex };
+export {
+  uniq, objectify, similarPropsCount, applyOpToCollection, swapItemsNearIndex,
+};
