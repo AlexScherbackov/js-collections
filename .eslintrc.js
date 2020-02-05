@@ -3,10 +3,11 @@ module.exports = {
     browser: true,
     node: true,
     jest: true,
+    "es6": true,
   },
   plugins: [
-    'babel',
     'jest',
+    'babel',
   ],
   extends: [
     'airbnb-base',
