@@ -29,10 +29,16 @@ const similarPropsCount = (list, prop) => {
   return list.reduce(reducer, {});
 };
 
+/* function applyOpToCollection */
+// takes collesction, operation, index of collection, value of changed element and operations
+// apply operation to collection
 const applyOpToCollection = (coll, operationName, index, value, ops = arrayOps) => (
   ops.has(operationName) ? ops.get(operationName)(coll, index, value) : coll
 );
 
+/* function swapItemsNearIndex */
+// takes an array and  an index
+// swap left and right elements near the index
 const swapItemsNearIndex = (arr, index) => {
   const transformed = arr.slice();
   if (index === 0 || index >= transformed.length - 1) {
