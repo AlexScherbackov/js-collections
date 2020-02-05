@@ -5,15 +5,15 @@ import arrayOps from '../constants/arrayOperations';
 // function don't mutate original array
 const uniq = (arr) => arr.filter((item, index) => arr.indexOf(item) === index);
 
-/*function objectify */
-//takes array and function to form keys
-//return object
+/* function objectify */
+// takes array and function to form keys
+// return object
 const objectify = (coll, select) => (
   coll.reduce((acc, item) => ({ ...acc, [select(item)]: item }), {})
 );
 
-/*function similarPropsCount*/
-//takes list of objects and prop
+/* function similarPropsCount */
+// takes list of objects and prop
 // calculate what timesthis props is present in list
 const similarPropsCount = (list, prop) => {
   const reducer = (acc, item) => {
