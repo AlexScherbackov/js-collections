@@ -48,7 +48,21 @@ const swapItemsNearIndex = (arr, index) => {
   return transformed;
 };
 
+const formChunks = (coll, size) => {
+  const iter = (iterColl, acc = []) => {
+    if (iterColl.length === 0) {
+      return acc;
+    }
+    return iter(
+      iterColl.slice(size),
+      [...acc, iterColl.slice(0, size)],
+    );
+  };
+
+  return iter(coll);
+};
+
 
 export {
-  uniq, objectify, similarPropsCount, applyOpToCollection, swapItemsNearIndex,
+  uniq, objectify, similarPropsCount, applyOpToCollection, swapItemsNearIndex, formChunks
 };
