@@ -1,10 +1,10 @@
-/*function toLoweCase*/
-//takes string and return string in lowwer case
+/* function toLoweCase */
+// takes string and return string in lowwer case
 const toLoweCase = (str) => str.toLowerCase();
 
-/*function wordsCoun*/
-//takes words array and stopWords array
-//filtred words to exclude stopWords and return Map with counts every words
+/* function wordsCoun */
+// takes words array and stopWords array
+// filtred words to exclude stopWords and return Map with counts every words
 const wordsCount = (words, stopWords) => {
   const checkItemIsInStopWords = (item) => (stopWords.indexOf(item) === -1);
   const filtredWords = words.map(toLoweCase).filter(checkItemIsInStopWords);
@@ -15,4 +15,14 @@ const wordsCount = (words, stopWords) => {
   return filtredWords.reduce(reducer, new Map());
 };
 
-export { toLoweCase, wordsCount };
+
+const nrziDecoding = (code) => (
+  code
+    .split('')
+    .map((e, i, arr) => {
+      if (e === '|') return '';
+      return arr[i - 1] === '|' ? 1 : 0;
+    })
+    .join('')
+);
+export { toLoweCase, wordsCount, nrziDecoding };

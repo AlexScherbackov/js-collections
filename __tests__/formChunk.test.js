@@ -1,4 +1,4 @@
-import { formChunks as chunk}  from '../src/helpers/arrayHelper.js';
+import { formChunks as chunk } from '../src/helpers/arrayHelper';
 
 describe('Chunk', () => {
   it('should works', () => {

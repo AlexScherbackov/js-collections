@@ -64,5 +64,5 @@ const formChunks = (coll, size) => {
 
 
 export {
-  uniq, objectify, similarPropsCount, applyOpToCollection, swapItemsNearIndex, formChunks
+  uniq, objectify, similarPropsCount, applyOpToCollection, swapItemsNearIndex, formChunks,
 };
