@@ -48,7 +48,23 @@ const swapItemsNearIndex = (arr, index) => {
   return transformed;
 };
 
+const dublicate = (arg) => [arg, arg];
+const dublicateItemInArr = (item) => dublicate(item);
+const dublicateAllItemsInBinaryArray = (elements) => (
+  elements
+    .map((i) => i.map(dublicateItemInArr).flat())
+    .map(dublicateItemInArr)
+    .flat()
+);
+
 
 export {
-  uniq, objectify, similarPropsCount, applyOpToCollection, swapItemsNearIndex,
+  uniq,
+  objectify,
+  similarPropsCount,
+  applyOpToCollection,
+  swapItemsNearIndex,
+  dublicate,
+  dublicateItemInArr,
+  dublicateAllItemsInBinaryArray,
 };
